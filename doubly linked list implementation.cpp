@@ -10,19 +10,19 @@ public:
     node *pre;
 };
 
-node *head=nullptr,*tail=nullptr,*ptr;
+node *head=nullptr,*tail=nullptr,*ptr;  //declaring globally the head, tail and an arbitrary pointer of node type
 
-void sel(void);
-void cl(void);
-void ins(void);
-void inm(void);
-void ine(void);
-void dels(void);
-void delm(void);
-void dele(void);
-void searchs(void);
-void searche(void);
-void display(void);
+void sel(void); //function for selection
+void cl(void);  //function for creating of list
+void ins(void);  //for inserting node at the start
+void inm(void);  //for inserting node in between of the list, after a node
+void ine(void);  //for inserting a node at the end
+void dels(void);  //for deleting node from the start
+void delm(void);  //for deleteting node from between/mid
+void dele(void);  //for deleting node from the end
+void searchs(void);  //for searching a node using it's info part, starting from start
+void searche(void);  //for searching a node using it's info part, starting from end
+void display(void);  //for displaying the list
 
 void sel(void){
     int n;
@@ -62,12 +62,12 @@ void sel(void){
 }
 
 void cl(){
-    if(head!=nullptr){
+    if(head!=nullptr){  //checking if list already created
         cout<<"List already created!"<<endl;
         sel();
         return;
     }
-    ptr=new node;
+    ptr=new node;  //creating first node
     cout<<"Enter value: ";
     cin>>ptr->info;
     ptr->next=nullptr;
@@ -80,27 +80,27 @@ void cl(){
 
 }
 
-void display(){
-    if(head==nullptr){
+void display(){  
+    if(head==nullptr){  //checking if list is empty
         cout<<"No list!"<<endl;
         return;
     }
     cout<<endl<<"----------------------------------------"<<endl;
     ptr=head;
     while(ptr!=nullptr){
-        cout<<ptr->info<<"\t";
+        cout<<ptr->info<<"\t";  //printing the info part
         ptr=ptr->next;
     }
     cout<<endl<<"----------------------------------------"<<endl;
 }
 
-void ins(void){
-    if(head==nullptr){
+void ins(void){  //function for inserting node in the start of pre created list
+    if(head==nullptr){  //checking if list been created or not
         cout<<"List not created!"<<endl;
         sel();
         return;
-    }
-    ptr=new node;
+    }  
+    ptr=new node;  //creting n inserting the new node in start
     cout<<"Enter value: ";
     cin>>ptr->info;
     ptr->pre=nullptr;
@@ -110,8 +110,8 @@ void ins(void){
     sel();
 }
 
-void inm(void){
-    if(head==nullptr){
+void inm(void){  //function for inserting a node in between of the pre existing list
+    if(head==nullptr){  //checking whether a list exists or not
         cout<<"No list Found!"<<endl;
         sel();
         return;
@@ -120,18 +120,18 @@ void inm(void){
     cout<<"Enter value after which to insert: ";
     cin>>n;
     ptr=head;
-    while(ptr->info!=n&&ptr!=nullptr){
+    while(ptr->info!=n&&ptr!=nullptr){  //finding the node after which the user wants to insert the element
         ptr=ptr->next;
         if(ptr==nullptr){
-            cout<<"No such node found!"<<endl;
+            cout<<"No such node found!"<<endl;  //if no such node found
             sel();
             return;}
     }
-    node *add;
+    node *add;  //creating and inserting node at its appropriatelocation
     add=new node;
     cout<<"Enter value: ";
     cin>>add->info;
-    add->next=ptr->next;
+    add->next=ptr->next;  //adjusting all the pointers
     ptr->next->pre=add;
     add->pre=ptr;
     ptr->next=add;
@@ -139,13 +139,13 @@ void inm(void){
     sel();
 }
 
-void ine(void){
-    if(head==nullptr){
+void ine(void){  //function to insert in the end of pre existing list
+    if(head==nullptr){  //checking if list exists
         cout<<"List not created yet!"<<endl;
         sel();
         return;
     }
-    ptr=new node;
+    ptr=new node;  //creating and adjusting the node
     cout<<"Enter data: ";
     cin>>ptr->info;
     ptr->next=nullptr;
@@ -156,20 +156,20 @@ void ine(void){
     sel();
 }
 
-void dels(void){
-    if(head==nullptr){
+void dels(void){  //function for deleting a node from start of pre existing list
+    if(head==nullptr){  //if list not created yet
         cout<<"List not created yet!"<<endl;
         sel();
         return;
-    }else if(head->next==nullptr){
+    }else if(head->next==nullptr){  //if there's only one node
         cout<<head->info<<" wala node being deleted!"<<endl;
-        delete(head);
-        free(head);
-        head=nullptr;
+        delete(head);  //deleting the head
+        free(head);   //freeing up the pre occupied space
+        head=nullptr;  
         display();
         sel();
     }
-    ptr=head->next;
+    ptr=head->next;  //if list had more than 1 nodes
     cout<<head->info<<" wala node being deleted!"<<endl;
     delete(head);
     free(head);
@@ -180,54 +180,54 @@ void dels(void){
 
 }
 
-void delm(void){
-    if(head==nullptr){
+void delm(void){  //function to delete from middle / b/w of the list
+    if(head==nullptr){  //if list was empty
         cout<<"List already empty!"<<endl;
         sel();
         return;
     }
-    cout<<"Enter value of node to be deleted!"<<endl;
+    cout<<"Enter value of node to be deleted: ";  
     int n;
     cin>>n;
     ptr=head->next;
-    while(ptr->info!=n&&ptr->next!=nullptr)
+    while(ptr->info!=n&&ptr->next!=nullptr)  //accessing the node matching info value to be deleted
         ptr=ptr->next;
-    if(ptr->info!=n){
+    if(ptr->info!=n){  //if no any node having info=n found
         cout<<"No such node found in between head and tail!"<<endl;
         sel();
         return;
-    }
-    ptr->pre->next=ptr->next;
+    }  
+    ptr->pre->next=ptr->next;  //adjusting links before deleting
     ptr->next->pre=ptr->pre;
-    delete(ptr);
-    free(ptr);
+    delete(ptr);  //deleting the desired node
+    free(ptr);  //freeing up space
     display();
     sel();
 }
 
-void dele(void){
-    if(head==nullptr){
+void dele(void){  //function to delete from the end of the pre existing list
+    if(head==nullptr){  //checking if list exists or not
         cout<<"List already empty!"<<endl;
         sel();
         return;
     }
-    if(head->next==nullptr){
-        dels();
+    if(head->next==nullptr){  //if only one node eisits in the list
+        dels();  //calling the dels function to delete the only node 
         return;
     }
     cout<<tail->info<<" wala node being deleted!"<<endl;
-    ptr=tail->pre;
-    tail->pre->next=nullptr;
-    delete(tail);
-    free(tail);
-    tail=ptr;
+    ptr=tail->pre; //adjusting links before deleting the node
+    ptr->next=nullptr;
+    delete(tail);  //deleting tail
+    free(tail);  //freeing up space
+    tail=ptr;  //setting ptr as new tail
     display();
     sel();
 
 }
 
-void searchs(void){
-    if(head==nullptr){
+void searchs(void){  //function to search a node from start, info part of node as key
+    if(head==nullptr){  //if list is created or not
         cout<<"List already empty!"<<endl;
         sel();
         return;
@@ -236,12 +236,12 @@ void searchs(void){
     int t=1,n;
     cin>>n;
     ptr=head;
-    while(ptr->info!=n&&ptr->next!=nullptr){
+    while(ptr->info!=n&&ptr->next!=nullptr){  //searching the node
         ptr=ptr->next;
         ++t;
     }
     if(ptr->next==nullptr&&ptr->info!=n)
-        cout<<"Not found!"<<endl;
+        cout<<"Not found!"<<endl;  //if not found
     else{
         cout<<"Element found at "<<t<<"th location from start"<<endl;
     }
@@ -249,8 +249,8 @@ void searchs(void){
 
 }
 
-void searche(void){
-    if(head==nullptr){
+void searche(void){  //function to search a node from end, info part of node as key
+    if(head==nullptr){  //if list was not created
         cout<<"List already empty!"<<endl;
         sel();
         return;
@@ -258,12 +258,12 @@ void searche(void){
     cout<<"Enter data of node to be found: ";
     int t=1,n;
     cin>>n;
-    ptr=tail;
-    while(ptr->info!=n&&ptr->pre!=nullptr){
+    ptr=tail;  //setting ptr to tail
+    while(ptr->info!=n&&ptr->pre!=nullptr){  //searching from end/tail
         ptr=ptr->pre;
         ++t;
     }
-    if(ptr->pre==nullptr&&ptr->info!=n)
+    if(ptr->pre==nullptr&&ptr->info!=n)  //if not found
         cout<<"Not found!"<<endl;
     else{
         cout<<"Element found at "<<t<<"th location from last"<<endl;
